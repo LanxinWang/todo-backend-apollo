@@ -15,3 +15,18 @@ const typeDefs = `
     Todos: [Todo]
   }
 `;
+
+const todos = [
+    {
+      _id: '0',
+      name: 'todo 1',
+      status: 'active',
+      
+    },
+    {
+      _id: '1',
+      name: 'todo 2',
+      status: 'completed'
+      
+    },
+  ];
