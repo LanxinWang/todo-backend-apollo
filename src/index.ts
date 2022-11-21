@@ -1,8 +1,15 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { TodosDataSource } from 'datasources';
 import { readFileSync } from 'fs';
 
 const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
+
+export interface MyContext {
+    dataSources: {
+      todosAPI: TodosDataSource;
+    }
+  }
 
 const todos = [
     {
