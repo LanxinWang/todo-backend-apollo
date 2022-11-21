@@ -30,3 +30,9 @@ const todos = [
       
     },
   ];
+
+const resolvers = {
+    Query: {
+      todos: () => todos,
+    },
+  };
