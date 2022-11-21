@@ -1,0 +1,9 @@
+type Todo {
+    _id: String
+    status: String
+    name: String
+  }
+
+type Query {
+    todos: [Todo]
+}

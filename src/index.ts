@@ -1,17 +1,8 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { readFileSync } from 'fs';
 
-const typeDefs = `
-  type Todo {
-    _id: String
-    status: String
-    name: String
-  }
-
-  type Query {
-    todos: [Todo]
-  }
-`;
+const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 
 const todos = [
     {
