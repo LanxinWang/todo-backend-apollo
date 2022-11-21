@@ -16,5 +16,5 @@ type AddTodoMutationResponse {
 }
 
 type Mutation {
-  addTodo( _id: String, status: String, name: String!): AddTodoMutationResponse
+  addTodo( _id: String!, status: String!, name: String!): AddTodoMutationResponse
 }

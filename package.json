@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "compile": "tsc",
-    "start": "npm run compile && node ./dist/index.js"
+    "start": "npm run compile && node ./dist/index.js",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,9 @@
     "graphql": "^16.6.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.13.12",
+    "@graphql-codegen/typescript": "2.8.2",
+    "@graphql-codegen/typescript-resolvers": "2.7.7",
     "@types/node": "^18.11.9",
     "typescript": "^4.9.3"
   }
