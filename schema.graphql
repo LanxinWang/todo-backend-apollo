@@ -48,5 +48,5 @@ type Mutation {
   deleteATodo( _id: String!): DeleteATodoMutationResponse
   deleteAllCompletedTodos: DeleteAllCompletedTodosMutationResponse
   updateATodoStatus( _id: String!, isChecked: Boolean!): UpdateATodoStatusMutationResponse
-  updateAllTodosStatus( isChecked: Boolean!): UpdateAllTodosStatusMutationResponse
+  updateAllTodosStatus( updateIds: [String],isChecked: Boolean!): UpdateAllTodosStatusMutationResponse
 }

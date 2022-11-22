@@ -69,6 +69,7 @@ export type MutationUpdateATodoStatusArgs = {
 
 export type MutationUpdateAllTodosStatusArgs = {
   isChecked: Scalars['Boolean'];
+  updateIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type Query = {

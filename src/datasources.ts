@@ -97,14 +97,20 @@ export class TodosDataSource {
         };
     }
 
-    async updateAllTodosStatus(isChecked: Boolean): Promise<UpdateAllTodosStatusMutationResponse> {
-        const updateTodos = this.todos.filter(todo => {
-            if(todo.status !== "deleted" ) {
-                todo.status = isChecked ? "completed" : "active";
-            }
-            return todo;
-        })
-        console.log("after update all todos:", this.todos);
+    async updateAllTodosStatus(updateIds:string[], isChecked: Boolean): Promise<UpdateAllTodosStatusMutationResponse> {
+        let updateTodos = null;
+        try {
+            await TodoModel.updateMany({
+                _id: {$in: updateIds}
+            },
+            {
+                $set: 
+                    { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
+            });
+            updateTodos = await TodoModel.find({_id: {$in: updateIds}});    
+        } catch (error) {
+            throw new Error("DataBase operation error: update all todos status");
+        }
         return {
             code: '200',
             success: true,
