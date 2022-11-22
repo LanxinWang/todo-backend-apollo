@@ -1,9 +1,7 @@
-// Use our automatically generated Todo and AddTodoMutationResponse types
-// for type safety in our data source class
+import { AddTodoMutationResponse, Todo } from './__generated__/resolvers-types';
 
 export class TodosDataSource {
-  // Our example static data set
-  Todos: { _id: string; status: string; name: string }[] = [
+  todos: { _id: string; status: string; name: string }[] = [
     {
       _id: '0',
       name: 'todo 1',
@@ -18,9 +16,21 @@ export class TodosDataSource {
     },
   ];
 
-  getTodos() {
+  getTodos(): Todo[] {
     // simulate fetching a list of Todos
-    return this.Todos;
+    return this.todos;
+  };
+
+  async addTodo(todo: Todo): Promise<AddTodoMutationResponse> {
+    this.todos.push(todo);
+    console.log(this.todos);
+
+    return {
+      code: '200',
+      success: true,
+      message: 'New todo added!',
+      todo: this.todos[this.todos.length - 1],
+    };
   }
 
 }
