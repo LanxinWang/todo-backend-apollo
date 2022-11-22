@@ -5,9 +5,12 @@ const mutations: MutationResolvers = {
   Mutation: {
     // Below, we mock adding a new book. Our data set is static for this
     // example, so we won't actually modify our data.
-    addBook: async (_, { _id, status, name }, { dataSources }) => {
-      return await dataSources.booksAPI.addBook({ _id, status, name });
+    addATodo: async (_, { _id, status, name }, { dataSources }) => {
+      return await dataSources.todosAPI.addATodo({ _id, status, name });
     },
+    deleteATodo: async (_, { _id }, { dataSources }) => {
+        return await dataSources.todosAPI.deleteATodo(_id);
+      },
   },
 };
 

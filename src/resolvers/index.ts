@@ -6,10 +6,5 @@ import mutations from './mutations.js';
 // separately type checking our queries and resolvers. However, the "Resolvers"
 // generated types is useful syntax if you are defining your resolvers
 // in a single file.
-export const resolvers: Resolvers = {    
-    Query: {
-        todos: (_, __, contextValue) => {
-            return contextValue.dataSources.todosAPI.getTodos();
-            }
-    }
-};
+const resolvers: Resolvers = { ...queries,...mutations};
+export default resolvers

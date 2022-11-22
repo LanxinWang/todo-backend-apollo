@@ -8,7 +8,14 @@ type Query {
     todos: [Todo]
 }
 
-type AddTodoMutationResponse {
+type AddATodoMutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  todo: Todo
+}
+
+type DeleteATodoMutationResponse {
   code: String!
   success: Boolean!
   message: String!
@@ -16,5 +23,6 @@ type AddTodoMutationResponse {
 }
 
 type Mutation {
-  addTodo( _id: String!, status: String!, name: String!): AddTodoMutationResponse
+  addATodo( _id: String!, status: String!, name: String!): AddATodoMutationResponse
+  deleteATodo( _id: String!): DeleteATodoMutationResponse
 }

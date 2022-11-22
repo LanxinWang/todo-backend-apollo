@@ -1,8 +1,8 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { TodosDataSource } from 'datasources.js';
+import { TodosDataSource } from './datasources.js';
 import { readFileSync } from 'fs';
-import { resolvers } from 'resolvers';
+import resolvers from './resolvers/index.js';
 
 const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 
@@ -28,4 +28,4 @@ const server = new ApolloServer<MyContext>({
     }
   });
   
-  console.log(`🚀  Server ready at: ${url}`);
+  console.log(`Server ready at: ${url}`);
