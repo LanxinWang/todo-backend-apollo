@@ -1,4 +1,4 @@
-import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, } from './__generated__/resolvers-types';
+import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, DeleteAllCompletedTodosMutationResponse, } from './__generated__/resolvers-types';
 
 export class TodosDataSource {
     todos: Todo[] = [
@@ -87,6 +87,22 @@ export class TodosDataSource {
             success: true,
             message: 'update todo status by id!',
             todo: updateTodos,
+        };
+    }
+
+    async deleteAllCompletedTodos(): Promise<DeleteAllCompletedTodosMutationResponse> {
+        const deleteTodos = this.todos.filter(todo => {
+            if(todo.status === "completed" ) {
+                todo.status = "deleted";
+            }
+            return todo;
+        })
+        console.log("after delete all completed todos:", this.todos);
+        return {
+            code: '200',
+            success: true,
+            message: 'delete all completed todos',
+            todo: deleteTodos,
         };
     }
 
