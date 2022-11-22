@@ -1,4 +1,6 @@
 import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, DeleteAllCompletedTodosMutationResponse, } from './__generated__/resolvers-types';
+import { TodoModel } from "./model/todoModel.js";
+import { ITodo } from 'types';
 
 export class TodosDataSource {
     todos: Todo[] = [
@@ -19,10 +21,14 @@ export class TodosDataSource {
         },
         ];
 
-    getTodos() {
-        // simulate fetching a list of Todos
-        console.log("get todos:", this.todos);
-        return this.todos;
+    async getTodos() {
+        let todos: ITodo[] = [];
+        try {
+            todos = await TodoModel.find({}).sort({ _id: -1 });
+        } catch (error) {
+            throw new Error("error:getAllTodos");
+        }
+        return todos;
         };
 
     async addATodo(todo: Todo): Promise<AddATodoMutationResponse> {
