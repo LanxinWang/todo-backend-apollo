@@ -12,23 +12,22 @@ export interface MyContext {
     }
   }
 
-
 const server = new ApolloServer<MyContext>({
     typeDefs,
     resolvers,
   });
 
-  connectDb;
-  
-  const { url } = await startStandaloneServer(server,{
-    context: async () => {
-      return {
-        dataSources: {
-          todosAPI: new TodosDataSource(),
-        }
+connectDb;
+
+const { url } = await startStandaloneServer(server,{
+  context: async () => {
+    return {
+      dataSources: {
+        todosAPI: new TodosDataSource(),
       }
     }
-  });
+  }
+});
 
   
-  console.log(`Server ready at: ${url}`);
+console.log(`Server ready at: ${url}`);

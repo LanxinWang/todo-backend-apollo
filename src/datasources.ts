@@ -3,23 +3,6 @@ import { TodoModel } from "./model/todoModel.js";
 import { ITodo, TODO_STATUS } from './types/index.js';
 
 export class TodosDataSource {
-    todos: Todo[] = [
-        {
-            _id: '0',
-            status: 'active',
-            name: 'todo 1',
-        },
-        {
-            _id: '1',
-            status: 'completed',
-            name: 'todo 2',
-        },
-        {
-            _id: '1',
-            status: 'deleted',
-            name: 'todo 2',
-        },
-        ];
 
     async getTodos() {
         let todos: ITodo[] = [];
