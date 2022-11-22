@@ -36,9 +36,17 @@ type UpdateAllTodosStatusMutationResponse {
   todo: [Todo]
 }
 
+type DeleteAllCompletedTodosMutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  todo: [Todo]
+}
+
 type Mutation {
   addATodo( _id: String!, status: String!, name: String!): AddATodoMutationResponse
   deleteATodo( _id: String!): DeleteATodoMutationResponse
+  deleteAllCompletedTodos: DeleteAllCompletedTodosMutationResponse
   updateATodoStatus( _id: String!, isChecked: Boolean!): UpdateATodoStatusMutationResponse
   updateAllTodosStatus( isChecked: Boolean!): UpdateAllTodosStatusMutationResponse
 }

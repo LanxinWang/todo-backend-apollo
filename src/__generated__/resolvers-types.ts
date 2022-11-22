@@ -31,10 +31,19 @@ export type DeleteATodoMutationResponse = {
   todo?: Maybe<Todo>;
 };
 
+export type DeleteAllCompletedTodosMutationResponse = {
+  __typename?: 'DeleteAllCompletedTodosMutationResponse';
+  code: Scalars['String'];
+  message: Scalars['String'];
+  success: Scalars['Boolean'];
+  todo?: Maybe<Array<Maybe<Todo>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addATodo?: Maybe<AddATodoMutationResponse>;
   deleteATodo?: Maybe<DeleteATodoMutationResponse>;
+  deleteAllCompletedTodos?: Maybe<DeleteAllCompletedTodosMutationResponse>;
   updateATodoStatus?: Maybe<UpdateATodoStatusMutationResponse>;
   updateAllTodosStatus?: Maybe<UpdateAllTodosStatusMutationResponse>;
 };
@@ -163,6 +172,7 @@ export type ResolversTypes = ResolversObject<{
   AddATodoMutationResponse: ResolverTypeWrapper<AddATodoMutationResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   DeleteATodoMutationResponse: ResolverTypeWrapper<DeleteATodoMutationResponse>;
+  DeleteAllCompletedTodosMutationResponse: ResolverTypeWrapper<DeleteAllCompletedTodosMutationResponse>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -176,6 +186,7 @@ export type ResolversParentTypes = ResolversObject<{
   AddATodoMutationResponse: AddATodoMutationResponse;
   Boolean: Scalars['Boolean'];
   DeleteATodoMutationResponse: DeleteATodoMutationResponse;
+  DeleteAllCompletedTodosMutationResponse: DeleteAllCompletedTodosMutationResponse;
   Mutation: {};
   Query: {};
   String: Scalars['String'];
@@ -200,9 +211,18 @@ export type DeleteATodoMutationResponseResolvers<ContextType = MyContext, Parent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type DeleteAllCompletedTodosMutationResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['DeleteAllCompletedTodosMutationResponse'] = ResolversParentTypes['DeleteAllCompletedTodosMutationResponse']> = ResolversObject<{
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  todo?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addATodo?: Resolver<Maybe<ResolversTypes['AddATodoMutationResponse']>, ParentType, ContextType, RequireFields<MutationAddATodoArgs, '_id' | 'name' | 'status'>>;
   deleteATodo?: Resolver<Maybe<ResolversTypes['DeleteATodoMutationResponse']>, ParentType, ContextType, RequireFields<MutationDeleteATodoArgs, '_id'>>;
+  deleteAllCompletedTodos?: Resolver<Maybe<ResolversTypes['DeleteAllCompletedTodosMutationResponse']>, ParentType, ContextType>;
   updateATodoStatus?: Resolver<Maybe<ResolversTypes['UpdateATodoStatusMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateATodoStatusArgs, '_id' | 'isChecked'>>;
   updateAllTodosStatus?: Resolver<Maybe<ResolversTypes['UpdateAllTodosStatusMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateAllTodosStatusArgs, 'isChecked'>>;
 }>;
@@ -237,6 +257,7 @@ export type UpdateAllTodosStatusMutationResponseResolvers<ContextType = MyContex
 export type Resolvers<ContextType = MyContext> = ResolversObject<{
   AddATodoMutationResponse?: AddATodoMutationResponseResolvers<ContextType>;
   DeleteATodoMutationResponse?: DeleteATodoMutationResponseResolvers<ContextType>;
+  DeleteAllCompletedTodosMutationResponse?: DeleteAllCompletedTodosMutationResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Todo?: TodoResolvers<ContextType>;
