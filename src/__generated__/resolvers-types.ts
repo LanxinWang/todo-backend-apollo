@@ -61,6 +61,11 @@ export type MutationDeleteATodoArgs = {
 };
 
 
+export type MutationDeleteAllCompletedTodosArgs = {
+  deletedIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
 export type MutationUpdateATodoStatusArgs = {
   _id: Scalars['String'];
   isChecked: Scalars['Boolean'];
@@ -223,7 +228,7 @@ export type DeleteAllCompletedTodosMutationResponseResolvers<ContextType = MyCon
 export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addATodo?: Resolver<Maybe<ResolversTypes['AddATodoMutationResponse']>, ParentType, ContextType, RequireFields<MutationAddATodoArgs, '_id' | 'name' | 'status'>>;
   deleteATodo?: Resolver<Maybe<ResolversTypes['DeleteATodoMutationResponse']>, ParentType, ContextType, RequireFields<MutationDeleteATodoArgs, '_id'>>;
-  deleteAllCompletedTodos?: Resolver<Maybe<ResolversTypes['DeleteAllCompletedTodosMutationResponse']>, ParentType, ContextType>;
+  deleteAllCompletedTodos?: Resolver<Maybe<ResolversTypes['DeleteAllCompletedTodosMutationResponse']>, ParentType, ContextType, Partial<MutationDeleteAllCompletedTodosArgs>>;
   updateATodoStatus?: Resolver<Maybe<ResolversTypes['UpdateATodoStatusMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateATodoStatusArgs, '_id' | 'isChecked'>>;
   updateAllTodosStatus?: Resolver<Maybe<ResolversTypes['UpdateAllTodosStatusMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateAllTodosStatusArgs, 'isChecked'>>;
 }>;

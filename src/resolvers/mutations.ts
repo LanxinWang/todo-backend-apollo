@@ -11,8 +11,8 @@ const mutations: MutationResolvers = {
     deleteATodo: async (_, { _id }, { dataSources }) => {
         return await dataSources.todosAPI.deleteATodo(_id);
       },
-    deleteAllCompletedTodos: async (_, __, { dataSources }) => {
-    return await dataSources.todosAPI.deleteAllCompletedTodos();
+    deleteAllCompletedTodos: async (_, {deletedIds}, { dataSources }) => {
+    return await dataSources.todosAPI.deleteAllCompletedTodos(deletedIds);
     },
     updateATodoStatus: async (_, { _id, isChecked }, { dataSources }) => {
         return await dataSources.todosAPI.updateATodoStatus(_id, isChecked);

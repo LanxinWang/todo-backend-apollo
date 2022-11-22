@@ -119,19 +119,25 @@ export class TodosDataSource {
         };
     }
 
-    async deleteAllCompletedTodos(): Promise<DeleteAllCompletedTodosMutationResponse> {
-        const deleteTodos = this.todos.filter(todo => {
-            if(todo.status === "completed" ) {
-                todo.status = "deleted";
-            }
-            return todo;
-        })
-        console.log("after delete all completed todos:", this.todos);
+    async deleteAllCompletedTodos(deletedIds:string[]): Promise<DeleteAllCompletedTodosMutationResponse> {
+        let deletedTodos: Todo[] | [] = [];
+        try {
+            await TodoModel.updateMany({
+                _id: {$in: deletedIds}
+            },
+            {
+                $set: 
+                    { status: TODO_STATUS.DELETED }
+            });
+            deletedTodos = await TodoModel.find({_id: {$in: deletedIds}});
+        } catch (error) {
+            throw new Error("DataBase operation error: delete all completed todos");
+        }
         return {
             code: '200',
             success: true,
             message: 'delete all completed todos',
-            todo: deleteTodos,
+            todo: deletedTodos,
         };
     }
 
