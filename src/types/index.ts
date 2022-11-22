@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 export interface ITodo extends Document {
-    _id: Number,
+    _id: string,
     status: string,
     name: string,
   }
