@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { todoSchema } from "../schema/todoSchema";
+import { todoSchema } from "../schema/todoSchema.js";
 import {ITodo} from "../types/index";
 
-export const Todo = mongoose.model<ITodo>("Todo", todoSchema);
+export const TodoModel = mongoose.model<ITodo>("Todo", todoSchema);
