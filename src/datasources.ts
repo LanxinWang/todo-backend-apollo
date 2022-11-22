@@ -1,6 +1,6 @@
 import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, DeleteAllCompletedTodosMutationResponse, } from './__generated__/resolvers-types';
 import { TodoModel } from "./model/todoModel.js";
-import { ITodo } from 'types';
+import { ITodo, TODO_STATUS } from './types/index.js';
 
 export class TodosDataSource {
     todos: Todo[] = [
@@ -54,8 +54,15 @@ export class TodosDataSource {
                 message: 'there is no todo found by this id',
             };
         }
-        selectedTodo.status = "deleted";
-        console.log("after delete todos:",this.todos);
+        try {
+            await TodoModel.findByIdAndUpdate({
+                 _id  }, 
+                { $set: { status: TODO_STATUS.DELETED } 
+            });
+            selectedTodo = await this.findATodoById(_id);
+        } catch (error) {
+            throw new Error("DataBase operation error: delete a todo by id");
+        }
         return {
             code: '200',
             success: true,
@@ -65,7 +72,7 @@ export class TodosDataSource {
     }
 
     async updateATodoStatus(_id: Todo["_id"], isChecked: Boolean): Promise<UpdateATodoStatusMutationResponse> {
-        const selectedTodo = await this.findATodoById(_id);
+        let selectedTodo = await this.findATodoById(_id);
         if (!selectedTodo || selectedTodo.status === "deleted") {
             return {
                 code: '200',
@@ -73,8 +80,15 @@ export class TodosDataSource {
                 message: 'there is no todo found by this id',
             };
         }
-        selectedTodo.status = isChecked ? "completed" : "active";
-        console.log("after update todos:",this.todos);
+        try {
+            await TodoModel.findByIdAndUpdate(
+                _id, 
+                { $set: { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE } 
+            });
+            selectedTodo = await this.findATodoById(_id);
+        } catch (error) {
+            throw new Error("DataBase operation error: update a todo status by id");
+        }
         return {
             code: '200',
             success: true,
@@ -115,9 +129,19 @@ export class TodosDataSource {
         };
     }
 
-    async findATodoById(_id: Todo["_id"]): Promise<Todo | undefined> {
-        const result = await this.todos.find(todo => todo._id === _id)
-        return result
+    async findATodoById(_id: Todo["_id"]): Promise<Todo | null> {
+        // const result = await this.todos.find(todo => todo._id === _id)
+        let todo: Todo | null = null;
+        try {
+            await TodoModel.findByIdAndUpdate({
+                 _id  }, 
+                { $set: { status: TODO_STATUS.DELETED } 
+            });
+            todo = await TodoModel.findById(_id);
+        } catch (error) {
+            throw new Error("error:deleteATodoById");
+        }
+        return todo;
     }
 
 }
