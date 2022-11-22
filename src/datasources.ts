@@ -32,8 +32,11 @@ export class TodosDataSource {
         };
 
     async addATodo(todo: Todo): Promise<AddATodoMutationResponse> {
-        this.todos.push(todo);
-        console.log("after push todos:",this.todos);
+        try {
+            todo = await TodoModel.create(todo);
+        } catch (error) {
+            throw new Error("DataBase operation error: add a todo");
+        }
         return {
             code: '200',
             success: true,
