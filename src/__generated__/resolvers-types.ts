@@ -36,6 +36,7 @@ export type Mutation = {
   addATodo?: Maybe<AddATodoMutationResponse>;
   deleteATodo?: Maybe<DeleteATodoMutationResponse>;
   updateATodoStatus?: Maybe<UpdateATodoStatusMutationResponse>;
+  updateAllTodosStatus?: Maybe<UpdateAllTodosStatusMutationResponse>;
 };
 
 
@@ -53,6 +54,11 @@ export type MutationDeleteATodoArgs = {
 
 export type MutationUpdateATodoStatusArgs = {
   _id: Scalars['String'];
+  isChecked: Scalars['Boolean'];
+};
+
+
+export type MutationUpdateAllTodosStatusArgs = {
   isChecked: Scalars['Boolean'];
 };
 
@@ -74,6 +80,14 @@ export type UpdateATodoStatusMutationResponse = {
   message: Scalars['String'];
   success: Scalars['Boolean'];
   todo?: Maybe<Todo>;
+};
+
+export type UpdateAllTodosStatusMutationResponse = {
+  __typename?: 'UpdateAllTodosStatusMutationResponse';
+  code: Scalars['String'];
+  message: Scalars['String'];
+  success: Scalars['Boolean'];
+  todo?: Maybe<Array<Maybe<Todo>>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -154,6 +168,7 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']>;
   Todo: ResolverTypeWrapper<Todo>;
   UpdateATodoStatusMutationResponse: ResolverTypeWrapper<UpdateATodoStatusMutationResponse>;
+  UpdateAllTodosStatusMutationResponse: ResolverTypeWrapper<UpdateAllTodosStatusMutationResponse>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -166,6 +181,7 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String'];
   Todo: Todo;
   UpdateATodoStatusMutationResponse: UpdateATodoStatusMutationResponse;
+  UpdateAllTodosStatusMutationResponse: UpdateAllTodosStatusMutationResponse;
 }>;
 
 export type AddATodoMutationResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['AddATodoMutationResponse'] = ResolversParentTypes['AddATodoMutationResponse']> = ResolversObject<{
@@ -188,6 +204,7 @@ export type MutationResolvers<ContextType = MyContext, ParentType extends Resolv
   addATodo?: Resolver<Maybe<ResolversTypes['AddATodoMutationResponse']>, ParentType, ContextType, RequireFields<MutationAddATodoArgs, '_id' | 'name' | 'status'>>;
   deleteATodo?: Resolver<Maybe<ResolversTypes['DeleteATodoMutationResponse']>, ParentType, ContextType, RequireFields<MutationDeleteATodoArgs, '_id'>>;
   updateATodoStatus?: Resolver<Maybe<ResolversTypes['UpdateATodoStatusMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateATodoStatusArgs, '_id' | 'isChecked'>>;
+  updateAllTodosStatus?: Resolver<Maybe<ResolversTypes['UpdateAllTodosStatusMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateAllTodosStatusArgs, 'isChecked'>>;
 }>;
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
@@ -209,6 +226,14 @@ export type UpdateATodoStatusMutationResponseResolvers<ContextType = MyContext, 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type UpdateAllTodosStatusMutationResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['UpdateAllTodosStatusMutationResponse'] = ResolversParentTypes['UpdateAllTodosStatusMutationResponse']> = ResolversObject<{
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  todo?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type Resolvers<ContextType = MyContext> = ResolversObject<{
   AddATodoMutationResponse?: AddATodoMutationResponseResolvers<ContextType>;
   DeleteATodoMutationResponse?: DeleteATodoMutationResponseResolvers<ContextType>;
@@ -216,5 +241,6 @@ export type Resolvers<ContextType = MyContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   Todo?: TodoResolvers<ContextType>;
   UpdateATodoStatusMutationResponse?: UpdateATodoStatusMutationResponseResolvers<ContextType>;
+  UpdateAllTodosStatusMutationResponse?: UpdateAllTodosStatusMutationResponseResolvers<ContextType>;
 }>;
 
