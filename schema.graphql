@@ -46,7 +46,7 @@ type DeleteAllCompletedTodosMutationResponse {
 type Mutation {
   addATodo( _id: String!, status: String!, name: String!): AddATodoMutationResponse
   deleteATodo( _id: String!): DeleteATodoMutationResponse
-  deleteAllCompletedTodos( deletedIds: [String]): DeleteAllCompletedTodosMutationResponse
+  deleteAllCompletedTodos( deletedIds: [String]!): DeleteAllCompletedTodosMutationResponse
   updateATodoStatus( _id: String!, isChecked: Boolean!): UpdateATodoStatusMutationResponse
-  updateAllTodosStatus( updateIds: [String],isChecked: Boolean!): UpdateAllTodosStatusMutationResponse
+  updateAllTodosStatus( updateIds: [String]!, isChecked: Boolean!): UpdateAllTodosStatusMutationResponse
 }

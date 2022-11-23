@@ -128,10 +128,6 @@ export class TodosDataSource {
         // const result = await this.todos.find(todo => todo._id === _id)
         let todo: Todo | null = null;
         try {
-            await TodoModel.findByIdAndUpdate({
-                 _id  }, 
-                { $set: { status: TODO_STATUS.DELETED } 
-            });
             todo = await TodoModel.findById(_id);
         } catch (error) {
             throw new Error("error:deleteATodoById");
