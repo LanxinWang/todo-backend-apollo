@@ -1,11 +1,11 @@
 import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, DeleteAllCompletedTodosMutationResponse, GetTodosQueryResponse, } from './__generated__/resolvers-types';
 import { TodoModel } from "./model/todoModel.js";
-import { ITodo, TODO_STATUS } from './types/index.js';
+import { TODO_STATUS } from './types/index.js';
 
 export class TodosDataSource {
 
     async getTodos(): Promise<GetTodosQueryResponse> {
-        let todos: ITodo[] = [];
+        let todos: Todo[]| [] = [];
         try {
             todos = await TodoModel.find({}).sort({ _id: -1 });
         } catch (error) {
@@ -34,7 +34,7 @@ export class TodosDataSource {
     };
 
     async deleteATodo(_id: Todo["_id"]): Promise<DeleteATodoMutationResponse> {
-        let selectedTodo = await this.findATodoById(_id);
+        let selectedTodo = await this.findATodoById(_id);   
         if (!selectedTodo) {
             return {
                 code: '200',
@@ -43,9 +43,9 @@ export class TodosDataSource {
             };
         }
         try {
-            await TodoModel.findByIdAndUpdate({
-                 _id  }, 
-                { $set: { status: TODO_STATUS.DELETED } 
+            await TodoModel.findByIdAndUpdate(
+                _id, 
+                { $set: { status: TODO_STATUS.DELETED} 
             });
             selectedTodo = await this.findATodoById(_id);
         } catch (error) {
@@ -86,7 +86,7 @@ export class TodosDataSource {
     }
 
     async updateAllTodosStatus(updateIds:string[], isChecked: Boolean): Promise<UpdateAllTodosStatusMutationResponse> {
-        let updateTodos = null;
+        let updateTodos: Todo[] | null = null;
         try {
             await TodoModel.updateMany({
                 _id: {$in: updateIds}
@@ -108,7 +108,7 @@ export class TodosDataSource {
     }
 
     async deleteAllCompletedTodos(deletedIds:string[]): Promise<DeleteAllCompletedTodosMutationResponse> {
-        let deletedTodos: Todo[] | [] = [];
+        let deletedTodos: Todo[] | null = null;
         try {
             await TodoModel.updateMany({
                 _id: {$in: deletedIds}
@@ -130,7 +130,6 @@ export class TodosDataSource {
     }
 
     async findATodoById(_id: Todo["_id"]): Promise<Todo | null> {
-        // const result = await this.todos.find(todo => todo._id === _id)
         let todo: Todo | null = null;
         try {
             todo = await TodoModel.findById(_id);
