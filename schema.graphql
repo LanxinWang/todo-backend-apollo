@@ -1,11 +1,14 @@
 type Todo {
-    _id: String!
+    _id: Int!
     status: String!
     name: String!
   }
 
-type Query {
-    todos: [Todo]
+type GetTodosQueryResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  todo: [Todo]
 }
 
 type AddATodoMutationResponse {
@@ -43,10 +46,14 @@ type DeleteAllCompletedTodosMutationResponse {
   todo: [Todo]
 }
 
+type Query {
+    getTodos: GetTodosQueryResponse
+}
+
 type Mutation {
-  addATodo( _id: String!, status: String!, name: String!): AddATodoMutationResponse
-  deleteATodo( _id: String!): DeleteATodoMutationResponse
-  deleteAllCompletedTodos( deletedIds: [String]!): DeleteAllCompletedTodosMutationResponse
-  updateATodoStatus( _id: String!, isChecked: Boolean!): UpdateATodoStatusMutationResponse
-  updateAllTodosStatus( updateIds: [String]!, isChecked: Boolean!): UpdateAllTodosStatusMutationResponse
+  addATodo( _id: Int!, status: String!, name: String!): AddATodoMutationResponse
+  deleteATodo( _id: Int!): DeleteATodoMutationResponse
+  deleteAllCompletedTodos( deletedIds: [Int]!): DeleteAllCompletedTodosMutationResponse
+  updateATodoStatus( _id: Int!, isChecked: Boolean!): UpdateATodoStatusMutationResponse
+  updateAllTodosStatus( updateIds: [Int]!, isChecked: Boolean!): UpdateAllTodosStatusMutationResponse
 }

@@ -1,17 +1,22 @@
-import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, DeleteAllCompletedTodosMutationResponse, } from './__generated__/resolvers-types';
+import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, DeleteAllCompletedTodosMutationResponse, GetTodosQueryResponse, } from './__generated__/resolvers-types';
 import { TodoModel } from "./model/todoModel.js";
 import { ITodo, TODO_STATUS } from './types/index.js';
 
 export class TodosDataSource {
 
-    async getTodos() {
+    async getTodos(): Promise<GetTodosQueryResponse> {
         let todos: ITodo[] = [];
         try {
             todos = await TodoModel.find({}).sort({ _id: -1 });
         } catch (error) {
             throw new Error("error:getAllTodos");
         }
-        return todos;
+        return {
+            code: '200',
+            success: true,
+            message: 'get all todos',
+            todo: todos,
+            };
         };
 
     async addATodo(todo: Todo): Promise<AddATodoMutationResponse> {
