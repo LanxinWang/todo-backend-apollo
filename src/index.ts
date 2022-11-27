@@ -27,7 +27,7 @@ const server = new ApolloServer<MyContext>({
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
-connectDb;
+connectDb();
 
 await server.start();
 

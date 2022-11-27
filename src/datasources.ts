@@ -1,5 +1,5 @@
 import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, DeleteAllCompletedTodosMutationResponse, GetTodosQueryResponse, } from './__generated__/resolvers-types';
-import { TodoModel } from "./model/todoModel.js";
+import { TodoModel } from "./db/model/todoModel.js";
 import { TODO_STATUS } from './types/index.js';
 
 export class TodosDataSource {
@@ -22,15 +22,15 @@ export class TodosDataSource {
     async addATodo(todo: Todo): Promise<AddATodoMutationResponse> {
         try {
             todo = await TodoModel.create(todo);
+            return {
+                code: '200',
+                success: true,
+                message: 'New todo added!',
+                todo: todo,
+            };
         } catch (error) {
             throw new Error("DataBase operation error: add a todo");
         }
-        return {
-            code: '200',
-            success: true,
-            message: 'New todo added!',
-            todo: todo,
-        };
     };
 
     async deleteATodo(_id: Todo["_id"]): Promise<DeleteATodoMutationResponse> {
