@@ -4,47 +4,29 @@ type Todo {
     name: String!
   }
 
-type GetTodosQueryResponse {
+interface todoResponse {
   code: String!
-  success: Boolean!
-  message: String!
-  todo: [Todo]
-}
-
-type AddATodoMutationResponse {
-  code: String!
-  success: Boolean!
   message: String!
   todo: Todo
 }
 
-type DeleteATodoMutationResponse {
+interface todosResponse {
   code: String!
-  success: Boolean!
-  message: String!
-  todo: Todo
-}
-
-type UpdateATodoStatusMutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  todo: Todo
-}
-
-type UpdateAllTodosStatusMutationResponse {
-  code: String!
-  success: Boolean!
   message: String!
   todo: [Todo]
 }
 
-type DeleteAllCompletedTodosMutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  todo: [Todo]
-}
+type GetTodosQueryResponse implements todosResponse 
+
+type AddATodoMutationResponse implements todoResponse 
+
+type DeleteATodoMutationResponse implements todoResponse 
+
+type UpdateATodoStatusMutationResponse implements todoResponse 
+
+type UpdateAllTodosStatusMutationResponse implements todosResponse
+
+type DeleteAllCompletedTodosMutationResponse implements todosResponse
 
 type Query {
     getTodos: GetTodosQueryResponse
