@@ -1,11 +1,9 @@
-import { AddATodoMutationResponse, GetTodosQueryResponse } from "__generated__/resolvers-types";
-import { ITodo } from "../types";
-
+import { AddATodoMutationResponse, DeleteAllCompletedTodosMutationResponse, DeleteATodoMutationResponse, GetTodosQueryResponse, Todo, UpdateAllTodosStatusMutationResponse, UpdateATodoStatusMutationResponse } from "__generated__/resolvers-types";
 export interface todoServiceInterface {
     getAllTodos(): Promise<GetTodosQueryResponse>;
-    addATodo(todo: ITodo): Promise<AddATodoMutationResponse>;
-    updateATodoById(_id: number, isChecked: boolean): Promise<ITodo | null>;
-    updateAllTodos(isChecked: boolean, updateIds: Number[]): Promise<ITodo[]>;
-    deleteATodoById(_id: number): Promise<ITodo | null>;
-    deleteAllCompletedTodos(deletedIds: Number[]): Promise<ITodo[]>;
+    addATodo(todo: Todo): Promise<AddATodoMutationResponse>;
+    updateATodoById(_id: number, isChecked: boolean): Promise<UpdateATodoStatusMutationResponse>;
+    updateAllTodos(updateIds: string[], isChecked: boolean,): Promise<UpdateAllTodosStatusMutationResponse>;
+    deleteATodoById(_id: number): Promise<DeleteATodoMutationResponse>;
+    deleteAllCompletedTodos(deletedIds: string[]): Promise<DeleteAllCompletedTodosMutationResponse>;
 }

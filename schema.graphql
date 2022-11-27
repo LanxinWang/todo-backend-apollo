@@ -4,29 +4,41 @@ type Todo {
     name: String!
   }
 
-interface todoResponse {
+type GetTodosQueryResponse {
+  code: String!
+  message: String!
+  todo: [Todo]
+} 
+
+type AddATodoMutationResponse {
   code: String!
   message: String!
   todo: Todo
 }
 
-interface todosResponse {
+type DeleteATodoMutationResponse {
+  code: String!
+  message: String!
+  todo: Todo
+} 
+
+type UpdateATodoStatusMutationResponse {
+  code: String!
+  message: String!
+  todo: Todo
+}
+
+type UpdateAllTodosStatusMutationResponse {
   code: String!
   message: String!
   todo: [Todo]
 }
 
-type GetTodosQueryResponse implements todosResponse 
-
-type AddATodoMutationResponse implements todoResponse 
-
-type DeleteATodoMutationResponse implements todoResponse 
-
-type UpdateATodoStatusMutationResponse implements todoResponse 
-
-type UpdateAllTodosStatusMutationResponse implements todosResponse
-
-type DeleteAllCompletedTodosMutationResponse implements todosResponse
+type DeleteAllCompletedTodosMutationResponse {
+  code: String!
+  message: String!
+  todo: [Todo]
+}
 
 type Query {
     getTodos: GetTodosQueryResponse
