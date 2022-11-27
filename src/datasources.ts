@@ -1,8 +1,10 @@
 import { Todo, AddATodoMutationResponse, DeleteATodoMutationResponse, UpdateATodoStatusMutationResponse, UpdateAllTodosStatusMutationResponse, DeleteAllCompletedTodosMutationResponse, GetTodosQueryResponse, } from './__generated__/resolvers-types';
 import { TodoModel } from "./db/model/todoModel.js";
 import { TODO_STATUS } from './types/index.js';
+import { TodoService } from './service/todoService.js';
 
 export class TodosDataSource {
+    todoService = new TodoService();
 
     async getTodos(): Promise<GetTodosQueryResponse> {
         let todos: Todo[]| [] = [];

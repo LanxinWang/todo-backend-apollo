@@ -1,5 +1,5 @@
 import { ApolloServer } from '@apollo/server';
-import { TodosDataSource } from './datasources.js';
+import { TodosDataSource as TodosDataApi } from './datasources.js';
 import { readFileSync } from 'fs';
 import resolvers from './resolvers/index.js';
 import { connectDb } from './db/conn.js';
@@ -11,9 +11,9 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 
-export interface MyContext {
+export interface ContextValue {
     dataSources: {
-      todosAPI: TodosDataSource;
+      todosAPI: TodosDataApi;
     }
   }
 
@@ -21,7 +21,7 @@ const app = express();
 
 const httpServer = http.createServer(app);
 
-const server = new ApolloServer<MyContext>({
+const server = new ApolloServer<ContextValue>({
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
@@ -30,9 +30,6 @@ const server = new ApolloServer<MyContext>({
 connectDb();
 
 await server.start();
-
-// app.use(cors());
-// app.use(express.json());
 app.use(
   '/',
   cors<cors.CorsRequest>(),
@@ -43,7 +40,7 @@ app.use(
     context: async () => {
       return {
         dataSources: {
-          todosAPI: new TodosDataSource(),
+          todosAPI: new TodosDataApi(),
         }
       }
     }
