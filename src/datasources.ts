@@ -4,21 +4,10 @@ import { TODO_STATUS } from './types/index.js';
 import { TodoService } from './service/todoService.js';
 
 export class TodosDataSource {
-    todoService = new TodoService();
+    private _todoService: TodoService = new TodoService();
 
     async getTodos(): Promise<GetTodosQueryResponse> {
-        let todos: Todo[]| [] = [];
-        try {
-            todos = await TodoModel.find({}).sort({ _id: -1 });
-        } catch (error) {
-            throw new Error("error:getAllTodos");
-        }
-        return {
-            code: '200',
-            success: true,
-            message: 'get all todos',
-            todo: todos,
-            };
+        return this._todoService.getAllTodos()
         };
 
     async addATodo(todo: Todo): Promise<AddATodoMutationResponse> {
