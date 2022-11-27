@@ -1,11 +1,11 @@
-import { GetTodosQueryResponse } from "__generated__/resolvers-types.js";
+import { AddATodoMutationResponse, GetTodosQueryResponse, Todo } from "__generated__/resolvers-types.js";
 import { TodoModel } from "../db/model/todoModel.js";
 import { ITodo, TODO_STATUS } from "../types/index.js";
 import { todoServiceInterface } from "./todoService.interface";
 
 export class TodoService implements todoServiceInterface {
     async getAllTodos(): Promise<GetTodosQueryResponse> {
-        let todos: ITodo[]| [] = [];
+        let todos: Todo[]| [] = [];
         try {
             todos = await TodoModel.find({}).sort({ _id: -1 });
             return {
@@ -19,14 +19,19 @@ export class TodoService implements todoServiceInterface {
         }
     }
 
-    async addATodo(aTodo: ITodo): Promise<ITodo | null> {
-        let todo: ITodo| null = null; 
+    async addATodo(aTodo: Todo): Promise<AddATodoMutationResponse> {
+        let todo: Todo| null = null; 
         try {
             todo = await TodoModel.create(aTodo);
+            return {
+                code: '200',
+                success: true,
+                message: 'New todo added!',
+                todo: todo,
+            };
         } catch (error) {
-            throw new Error("error:createATodo");
+            throw new Error("DataBase operation error: add a todo");
         }
-        return todo;
     }
 
     async updateATodoById(_id: number, isChecked: boolean): Promise<ITodo | null > {
