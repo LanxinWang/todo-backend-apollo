@@ -1,4 +1,4 @@
-import { Resolvers } from '../__generated__/resolvers-types';
+import { Resolvers } from '../../__generated__/resolvers-types';
 import queries from './queries.js';
 import mutations from './mutations.js';
 

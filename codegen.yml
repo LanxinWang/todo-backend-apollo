@@ -1,4 +1,4 @@
-schema: './schema.graphql'
+schema: 'src/apollo/schema.graphql'
 generates:
   ./src/__generated__/resolvers-types.ts:
     plugins:

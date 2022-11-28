@@ -1,0 +1,17 @@
+type Todo {
+    _id: Int!
+    status: String!
+    name: String!
+  }
+
+type Query {
+    todos: [Todo]
+}
+
+type Mutation {
+  addATodo( _id: Int!, status: String!, name: String!): Todo
+  deleteATodo( _id: Int!): Todo
+  deleteAllCompletedTodos( deletedIds: [Int]!): [Todo]
+  updateATodoStatus( _id: Int!, isChecked: Boolean!): Todo
+  updateAllTodosStatus( updateIds: [Int]!, isChecked: Boolean!): [Todo]
+}
