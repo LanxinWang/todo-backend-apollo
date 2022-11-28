@@ -1,8 +1,8 @@
 import { ApolloServer } from '@apollo/server';
-import { TodosDataSource as TodosDataApi } from './datasources.js';
+import { TodosDataSource as TodosDataAPI } from './datasources.js';
 import { readFileSync } from 'fs';
 import resolvers from './resolvers/index.js';
-import { connectDb } from './db/conn.js';
+import { connectDb } from './mongoose/conn.js';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import express, { Request, Response } from 'express';
@@ -13,7 +13,7 @@ const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 
 export interface ContextValue {
     dataSources: {
-      todosAPI: TodosDataApi;
+      todosAPI: TodosDataAPI;
     }
   }
 
@@ -40,7 +40,7 @@ app.use(
     context: async () => {
       return {
         dataSources: {
-          todosAPI: new TodosDataApi(),
+          todosAPI: new TodosDataAPI(),
         }
       }
     }

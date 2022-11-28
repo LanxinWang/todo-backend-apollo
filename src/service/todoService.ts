@@ -1,5 +1,5 @@
 import { AddATodoMutationResponse, DeleteAllCompletedTodosMutationResponse, DeleteATodoMutationResponse, GetTodosQueryResponse, Todo, UpdateAllTodosStatusMutationResponse, UpdateATodoStatusMutationResponse } from "__generated__/resolvers-types.js";
-import { TodoModel } from "../db/model/todoModel.js";
+import { TodoModel } from "../mongoose/model/todoModel.js";
 import { TODO_STATUS } from "../types/index.js";
 import { todoServiceInterface } from "./todoService.interface";
 
