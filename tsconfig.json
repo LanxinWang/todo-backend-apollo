@@ -10,6 +10,6 @@
     "esModuleInterop": true,
     "types": ["node"]
   },
-  "include": ["src/"],
+  "include": ["src/", "testUtils/gqlAPI.ts", "testUtils"],
   "exclude": ["src/__tests__"]
 }

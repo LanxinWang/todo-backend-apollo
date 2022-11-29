@@ -1,13 +1,10 @@
 
 export const GET_TODOS = `
 query GetTodos {
-    getTodos {
-        code
-        todo {
+    todos {
           _id
           name
           status
-        }
     }
 }
 `;

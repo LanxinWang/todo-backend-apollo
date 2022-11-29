@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { TodosDataSource as TodosDataAPI } from './apollo/datasources.js';
 import { readFileSync } from 'fs';
 import resolvers from './apollo/resolvers/index.js';
+import { makeExecutableSchema } from '@graphql-tools/schema'
 import { connectDb } from './mongoose/conn.js';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
@@ -21,9 +22,10 @@ const app = express();
 
 const httpServer = http.createServer(app);
 
+const schema = makeExecutableSchema({typeDefs, resolvers})
+
 const server = new ApolloServer<ContextValue>({
-    typeDefs,
-    resolvers,
+    schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
