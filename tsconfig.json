@@ -8,8 +8,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
-  "include": ["src/", "testUtils/gqlAPI.ts", "testUtils"],
-  "exclude": ["src/__tests__"]
+  "include": ["src/", "testUtils/gqlAPI.ts", "testUtils"]
+  // "exclude": ["src/__tests__"]
 }

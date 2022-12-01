@@ -1,14 +1,17 @@
-import { Todo } from '../__generated__/resolvers-types';
-import { TodoModel } from '../mongoose/model/todoModel.js';
-import { ITodo, TODO_STATUS } from '../types/index.js';
+import { Todo } from '../../__generated__/resolvers-types';
+import { TodoModel } from '../../mongoose/model/todoModel.js';
+import { ITodo, TODO_STATUS } from '../../types/index.js';
 
 export class TodosDataSource {
+
     async getTodos(): Promise<ITodo[]> {
         return await TodoModel.find({}).sort({ _id: -1 });
     };
+
     async addATodo(aTodo: Todo): Promise<ITodo> {
         return await TodoModel.create(aTodo);
     };
+
     async deleteATodo(_id: Todo["_id"]): Promise<ITodo> {
         const todo = await this.findATodoById(_id) as ITodo;   
         await TodoModel.findByIdAndUpdate(
@@ -17,6 +20,7 @@ export class TodosDataSource {
         });
         return todo;
     };
+
     async updateATodoStatus(_id: Todo["_id"], isChecked: boolean): Promise<ITodo> {
         let todo = await this.findATodoById(_id) as ITodo;
         if (!todo || todo.status === "deleted") {
@@ -29,15 +33,8 @@ export class TodosDataSource {
         todo = await this.findATodoById(_id);
         return todo;
     };
+
     async updateAllTodosStatus(updateIds:string[], isChecked: boolean): Promise<ITodo[]> {
-        // return (await TodoModel.findOneAndUpdate({ _id: {$in: updateIds} },
-        //      {
-        //     $set: 
-        //         { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
-        //     }, 
-        //     {
-        //     new: true,
-        // })) as ITodo[];
         let updateTodos: ITodo[] | [] = [];
         await TodoModel.updateMany({
             _id: {$in: updateIds}
@@ -49,6 +46,7 @@ export class TodosDataSource {
         updateTodos = await TodoModel.find({_id: {$in: updateIds}}); 
         return updateTodos;
     };
+
     async deleteAllCompletedTodos(deletedIds:string[]): Promise<ITodo[]> {
         let deletedTodos: ITodo[] | [] = [];
         await TodoModel.updateMany({
@@ -61,7 +59,9 @@ export class TodosDataSource {
         deletedTodos = await TodoModel.find({_id: {$in: deletedIds}});
         return deletedTodos;
     };
+
     async findATodoById(_id: Todo["_id"]): Promise<ITodo | null> {
         return await TodoModel.findById(_id);
     };
+    
 }

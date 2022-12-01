@@ -3,4 +3,5 @@ import queries from './queries.js';
 import mutations from './mutations.js';
 
 const resolvers: Resolvers = { ...queries,...mutations};
+
 export default resolvers
