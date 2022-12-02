@@ -1,9 +1,9 @@
-import { QueryResolvers } from '__generated__/resolvers-types';
+import { QueryResolvers } from "__generated__/resolvers-types";
 
 const queries: QueryResolvers = {
   Query: {
     todos: (_, __, { dataSources }) => {
-      return dataSources.todosAPI.getTodos();
+      return dataSources.todosAPI.F();
     },
   },
 };
