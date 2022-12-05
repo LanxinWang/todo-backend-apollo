@@ -1,6 +1,6 @@
 import { Todo } from "../../__generated__/resolvers-types";
-import { TodoModel } from "../../mongoose/model/todoModel.js";
-import { ITodo, TODO_STATUS } from "../../types/index.js";
+import { TodoModel } from "../../mongoose/model/todoModel";
+import { ITodo, TODO_STATUS } from "../../types/index";
 
 export class TodosDataSource {
   async getTodos(): Promise<ITodo[]> {

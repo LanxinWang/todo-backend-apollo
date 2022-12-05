@@ -1,5 +1,5 @@
-import { TodosDataSource } from "../../apollo/datasources/todoDataSource.js";
-import { ITodo } from "../../types/index.js";
+import { TodosDataSource } from "../../apollo/datasources/todoDataSource";
+import { ITodo } from "../../types/index";
 
 const db = require("./db");
 

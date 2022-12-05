@@ -1,5 +1,5 @@
 import { ApolloServer } from "@apollo/server";
-import { TodosDataSource as TodosDataAPI } from "./apollo/datasources/todoDataSource.js";
+import { TodosDataSource as TodosDataAPI } from "./apollo/datasources/todoDataSource";
 import { readFileSync } from "fs";
 import resolvers from "./apollo/resolvers/index.js";
 import { makeExecutableSchema } from "@graphql-tools/schema";
