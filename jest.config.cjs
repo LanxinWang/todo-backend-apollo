@@ -4,7 +4,7 @@ module.exports = {
   testEnvironment: "node",
   extensionsToTreatAsEsm: [".ts"],
   testPathIgnorePatterns: [".js"],
-  testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
+  testMatch: ["**/?(*.)+(spec|test).(j|t)s?(x)"],
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",

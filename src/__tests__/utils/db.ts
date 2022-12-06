@@ -1,22 +1,27 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
-const mongod = new MongoMemoryServer();
+const mongo = new MongoMemoryServer();
 
 /**
  * Connect to the in-memory database.
  */
-export const connect = async () => {
-  const uri = await mongod.getUri();
+export const connectDatabase = async () => {
+  const uri = await mongo.getUri();
+  const dbName = "test";
 
   const mongooseOpts = {
+    dbName,
     useNewUrlParser: true,
+    autoCreate: true,
     autoReconnect: true,
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 1000,
   } as ConnectOptions;
 
-  await mongoose.connect(uri, mongooseOpts);
+  await mongoose.connect(uri, mongooseOpts).catch((e) => {
+    console.log("error:", e.message);
+  });
 };
 
 /**
@@ -24,8 +29,10 @@ export const connect = async () => {
  */
 export const closeDatabase = async () => {
   await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
-  await mongod.stop();
+  await mongoose.connection.close().catch((e) => {
+    console.log("error:", e.message);
+  });
+  await mongo.stop();
 };
 
 /**
@@ -36,6 +43,8 @@ export const clearDatabase = async () => {
 
   for (const key in collections) {
     const collection = collections[key];
-    await collection.deleteMany({});
+    await collection.deleteMany({}).catch((e) => {
+      console.log("error:", e.message);
+    });
   }
 };

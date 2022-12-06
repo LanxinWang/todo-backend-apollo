@@ -7,7 +7,8 @@
   "scripts": {
     "compile": "tsc",
     "dev": "npm run compile && node --experimental-specifier-resolution=node ./dist/index.js",
-    "test": "npm run compile && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "ts-test": "npm run compile && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "npx jest",
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "author": "",
