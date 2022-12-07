@@ -136,4 +136,70 @@ describe("resolvers", () => {
       expect(res.body.singleResult.errors).toEqual(undefined);
     }
   });
+
+  it("mutation delete all completed todos", async () => {
+    const mockTodos: ITodo[] = [
+      {
+        _id: 0,
+        status: TODO_STATUS.COMPLETED,
+        name: "todo 0",
+      },
+      {
+        _id: 1,
+        status: TODO_STATUS.ACTIVE,
+        name: "todo 1",
+      },
+    ];
+    const mockDeletedAllCompletedTodos: ITodo[] = [
+      {
+        _id: 0,
+        status: TODO_STATUS.DELETED,
+        name: "todo 0",
+      },
+      {
+        _id: 1,
+        status: TODO_STATUS.ACTIVE,
+        name: "todo 1",
+      },
+    ];
+    const DELETE_ALL_COMPLETED_TODOS = gql`
+      mutation DeleteAllCompletedTodos($deletedIds: [Int]!) {
+        deleteAllCompletedTodos(deletedIds: $deletedIds) {
+          _id
+          status
+          name
+        }
+      }
+    `;
+    const mockDeleteAllCompletedTodoResponse: ITodo[] = [
+      mockDeletedAllCompletedTodos[0],
+    ];
+    todosAPI.deleteAllCompletedTodos = jest.fn(() =>
+      Promise.resolve(mockDeleteAllCompletedTodoResponse)
+    );
+
+    const res = await testServer.executeOperation(
+      {
+        query: DELETE_ALL_COMPLETED_TODOS,
+        variables: {
+          deletedIds: [mockTodos[0]._id],
+        },
+      },
+      {
+        contextValue: {
+          dataSources: {
+            todosAPI,
+          },
+        },
+      }
+    );
+
+    expect(res.body.kind).toBe("single");
+    if (res.body.kind === "single") {
+      expect(res.body.singleResult.data.deleteAllCompletedTodos).toEqual([
+        mockDeletedAllCompletedTodos[0],
+      ]);
+      expect(res.body.singleResult.errors).toEqual(undefined);
+    }
+  });
 });
