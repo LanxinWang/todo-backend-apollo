@@ -253,4 +253,70 @@ describe("resolvers", () => {
       expect(res.body.singleResult.errors).toEqual(undefined);
     }
   });
+
+  it("mutation update all todos", async () => {
+    const mockTodos: ITodo[] = [
+      {
+        _id: 0,
+        status: TODO_STATUS.COMPLETED,
+        name: "todo 0",
+      },
+      {
+        _id: 1,
+        status: TODO_STATUS.ACTIVE,
+        name: "todo 1",
+      },
+    ];
+    const mockUpdatedAllTodos: ITodo[] = [
+      {
+        _id: 0,
+        status: TODO_STATUS.COMPLETED,
+        name: "todo 0",
+      },
+      {
+        _id: 1,
+        status: TODO_STATUS.COMPLETED,
+        name: "todo 1",
+      },
+    ];
+    const UPDATE_ALL_TODOS = gql`
+      mutation UpdateAllTodosStatus($updateIds: [Int]!, $isChecked: Boolean!) {
+        updateAllTodosStatus(updateIds: $updateIds, isChecked: $isChecked) {
+          _id
+          status
+          name
+        }
+      }
+    `;
+
+    const mockUpdatedAllTodoResponse: ITodo[] = mockUpdatedAllTodos;
+    todosAPI.updateAllTodosStatus = jest.fn(() =>
+      Promise.resolve(mockUpdatedAllTodoResponse)
+    );
+
+    const res = await testServer.executeOperation(
+      {
+        query: UPDATE_ALL_TODOS,
+        variables: {
+          updateIds: [mockTodos[0]._id, mockTodos[1]._id],
+          isChecked: true,
+        },
+      },
+      {
+        contextValue: {
+          dataSources: {
+            todosAPI,
+          },
+        },
+      }
+    );
+
+    expect(res.body.kind).toBe("single");
+    if (res.body.kind === "single") {
+      expect(res.body.singleResult.data.updateAllTodosStatus).toEqual(
+        mockUpdatedAllTodos
+      );
+      expect(res.body.singleResult.errors).toEqual(undefined);
+    }
+  });
 });
