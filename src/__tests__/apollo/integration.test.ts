@@ -93,4 +93,47 @@ describe("resolvers", () => {
       expect(res.body.singleResult.errors).toEqual(undefined);
     }
   });
+
+  it("mutation delete a todo", async () => {
+    const mockATodo: ITodo = {
+      _id: 0,
+      status: TODO_STATUS.DELETED,
+      name: "todo 0",
+    };
+    const DELETE_A_TODO = gql`
+      mutation DeleteATodo($id: Int!) {
+        deleteATodo(_id: $id) {
+          _id
+          status
+          name
+        }
+      }
+    `;
+    const mockDeleteATodoResponse: ITodo = mockATodo;
+    todosAPI.deleteATodo = jest.fn(() =>
+      Promise.resolve(mockDeleteATodoResponse)
+    );
+
+    const res = await testServer.executeOperation(
+      {
+        query: DELETE_A_TODO,
+        variables: {
+          id: mockATodo._id,
+        },
+      },
+      {
+        contextValue: {
+          dataSources: {
+            todosAPI,
+          },
+        },
+      }
+    );
+
+    expect(res.body.kind).toBe("single");
+    if (res.body.kind === "single") {
+      expect(res.body.singleResult.data.deleteATodo).toEqual(mockATodo);
+      expect(res.body.singleResult.errors).toEqual(undefined);
+    }
+  });
 });
