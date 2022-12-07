@@ -202,4 +202,55 @@ describe("resolvers", () => {
       expect(res.body.singleResult.errors).toEqual(undefined);
     }
   });
+
+  it("mutation update a todo", async () => {
+    const mockATodo: ITodo = {
+      _id: 0,
+      status: TODO_STATUS.ACTIVE,
+      name: "todo 0",
+    };
+    const mockAUpdatedTodo: ITodo = {
+      _id: 0,
+      status: TODO_STATUS.COMPLETED,
+      name: "todo 0",
+    };
+    const UPDATE_A_TODO = gql`
+      mutation UpdateATodoById($id: Int!, $isChecked: Boolean!) {
+        updateATodoStatus(_id: $id, isChecked: $isChecked) {
+          _id
+          status
+          name
+        }
+      }
+    `;
+    const mockUpdateATodoResponse: ITodo = mockAUpdatedTodo;
+    todosAPI.updateATodoStatus = jest.fn(() =>
+      Promise.resolve(mockUpdateATodoResponse)
+    );
+
+    const res = await testServer.executeOperation(
+      {
+        query: UPDATE_A_TODO,
+        variables: {
+          id: mockATodo._id,
+          isChecked: true,
+        },
+      },
+      {
+        contextValue: {
+          dataSources: {
+            todosAPI,
+          },
+        },
+      }
+    );
+
+    expect(res.body.kind).toBe("single");
+    if (res.body.kind === "single") {
+      expect(res.body.singleResult.data.updateATodoStatus).toEqual(
+        mockAUpdatedTodo
+      );
+      expect(res.body.singleResult.errors).toEqual(undefined);
+    }
+  });
 });
