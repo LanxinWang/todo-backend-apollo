@@ -3,7 +3,7 @@ import { jest } from "@jest/globals";
 import gql from "graphql-tag";
 import { testServer, todosAPI } from "../utils/testServer";
 
-describe("resolvers", () => {
+describe("integration", () => {
   it("query todos", async () => {
     const mockTodos: ITodo[] = [
       {
