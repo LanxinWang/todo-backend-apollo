@@ -31,7 +31,7 @@ describe("resolvers", () => {
     todosAPI.getTodos = jest.fn(() => Promise.resolve(mockGetTodosResponse));
 
     // run the query against the server and snapshot the output
-    const res: any = await testServer.executeOperation(
+    const res = await testServer.executeOperation(
       {
         query: GET_TODOS,
       },
@@ -44,6 +44,9 @@ describe("resolvers", () => {
       }
     );
 
-    expect(res.body.singleResult.data.todos).toEqual(mockTodos);
+    expect(res.body.kind).toBe("single");
+    if (res.body.kind === "single") {
+      expect(res.body.singleResult.data.todos).toEqual(mockTodos);
+    }
   });
 });
