@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "compile": "tsc",
-    "dev": "npm run compile && node --experimental-specifier-resolution=node ./dist/index.js",
-    "ts-test": "npm run compile && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "start": "npx ts-node ./src/index.ts",
     "test": "npx jest",
     "codegen": "graphql-codegen --config codegen.yml"
   },
