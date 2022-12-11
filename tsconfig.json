@@ -5,12 +5,12 @@
     "outDir": "dist",
     "lib": ["es2020"],
     "target": "es2020",
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowJs": true,
-    "types": ["node", "jest"]
+    "types": ["node"]
   },
-  "include": ["src/", "testUtils/gqlAPI.ts", "testUtils"]
-  // "exclude": ["src/__tests__"]
+  "include": ["src/"],
+  "exclude": ["src/__tests__"]
 }
