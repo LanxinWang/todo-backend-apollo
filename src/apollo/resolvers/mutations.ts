@@ -1,4 +1,4 @@
-import { MutationResolvers, Todo } from "__generated__/resolvers-types";
+import { MutationResolvers, Todo } from "../../__generated__/resolvers-types";
 
 const mutations: MutationResolvers = {
   Mutation: {

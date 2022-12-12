@@ -1,9 +1,9 @@
 import { ApolloServer } from "@apollo/server";
 import { TodosDataSource as TodosDataAPI } from "./apollo/datasources/todoDataSource";
 import { readFileSync } from "fs";
-import resolvers from "./apollo/resolvers/index.js";
+import resolvers from "./apollo/resolvers/index";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { connectDb } from "./mongoose/conn.js";
+import { connectDb } from "./mongoose/conn";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import express from "express";
@@ -26,24 +26,27 @@ const server = new ApolloServer<ContextValue>({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
-connectDb();
+const startServer = async () => {
+  await server.start();
+  connectDb();
+};
 
-await server.start();
-
-app.use(
-  "/graphql",
-  cors<cors.CorsRequest>(),
-  bodyParser.json(),
-  expressMiddleware(server, {
-    context: async () => {
-      return {
-        dataSources: {
-          todosAPI: new TodosDataAPI(),
-        },
-      };
-    },
-  })
-);
+startServer().then(() => {
+  app.use(
+    "/graphql",
+    cors<cors.CorsRequest>(),
+    bodyParser.json(),
+    expressMiddleware(server, {
+      context: async () => {
+        return {
+          dataSources: {
+            todosAPI: new TodosDataAPI(),
+          },
+        };
+      },
+    })
+  );
+});
 
 const PORT = 4000;
 httpServer.listen(PORT, () => {
