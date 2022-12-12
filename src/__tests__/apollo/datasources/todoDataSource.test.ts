@@ -1,6 +1,6 @@
 import { TodosDataSource } from "../../../apollo/datasources/todoDataSource";
 import { TodoModel } from "../../../mongoose/model/todoModel";
-import { ITodo } from "types";
+import { ITodo } from "../../../types";
 
 const mockTodos: ITodo[] = [
   { _id: 0, status: "active", name: "test 0" },
