@@ -1,7 +1,7 @@
-import { ITodo, TODO_STATUS } from "../../types/index";
+import { ITodo, TODO_STATUS } from "../../../types/index";
 import { jest } from "@jest/globals";
 import gql from "graphql-tag";
-import { testServer, todosAPI } from "../utils/testServer";
+import { testServer, todosAPI } from "../../utils/testServer";
 
 describe("integration", () => {
   it("query todos", async () => {
