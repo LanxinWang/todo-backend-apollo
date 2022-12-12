@@ -1,4 +1,3 @@
-import { Document } from "mongoose";
 export interface ITodo {
   _id: number;
   status: string;

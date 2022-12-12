@@ -1,6 +1,6 @@
 import { Todo } from "../../__generated__/resolvers-types";
-import { TodoModel } from "../../mongoose/model/todoModel.js";
-import { ITodo, TODO_STATUS } from "../../types/index.js";
+import { TodoModel } from "../../mongoose/model/todoModel";
+import { ITodo, TODO_STATUS } from "../../types/index";
 
 export class TodosDataSource {
   async getTodos(): Promise<ITodo[]> {
@@ -8,12 +8,14 @@ export class TodosDataSource {
   }
 
   async addATodo(aTodo: Todo): Promise<ITodo> {
-    return await TodoModel.create(aTodo);
+    const newTodo = new TodoModel(aTodo);
+    return await newTodo.save();
   }
 
   async deleteATodo(_id: Todo["_id"]): Promise<ITodo> {
-    const todo = (await this.findATodoById(_id)) as ITodo;
-    await TodoModel.findByIdAndUpdate(_id, {
+    let todo = await this.findATodoById(_id);
+    if (!todo) return todo;
+    todo = await TodoModel.findByIdAndUpdate(_id, {
       $set: { status: TODO_STATUS.DELETED },
     });
     return todo;
@@ -23,19 +25,18 @@ export class TodosDataSource {
     _id: Todo["_id"],
     isChecked: boolean
   ): Promise<ITodo> {
-    let todo = (await this.findATodoById(_id)) as ITodo;
+    let todo = await this.findATodoById(_id);
     if (!todo || todo.status === "deleted") {
       return null;
     }
-    await TodoModel.findByIdAndUpdate(_id, {
+    todo = await TodoModel.findByIdAndUpdate(_id, {
       $set: { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE },
     });
-    todo = await this.findATodoById(_id);
     return todo;
   }
 
   async updateAllTodosStatus(
-    updateIds: string[],
+    updateIds: Todo["_id"][],
     isChecked: boolean
   ): Promise<ITodo[]> {
     let updateTodos: ITodo[] | [] = [];
@@ -53,7 +54,7 @@ export class TodosDataSource {
     return updateTodos;
   }
 
-  async deleteAllCompletedTodos(deletedIds: string[]): Promise<ITodo[]> {
+  async deleteAllCompletedTodos(deletedIds: Todo["_id"][]): Promise<ITodo[]> {
     let deletedTodos: ITodo[] | [] = [];
     await TodoModel.updateMany(
       {
