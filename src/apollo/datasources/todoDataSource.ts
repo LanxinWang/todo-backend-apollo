@@ -8,7 +8,8 @@ export class TodosDataSource {
   }
 
   async addATodo(aTodo: Todo): Promise<ITodo> {
-    return await TodoModel.create(aTodo);
+    const newTodo = new TodoModel(aTodo);
+    return await newTodo.save();
   }
 
   async deleteATodo(_id: Todo["_id"]): Promise<ITodo> {
